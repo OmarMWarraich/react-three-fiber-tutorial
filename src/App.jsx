@@ -1,34 +1,48 @@
 import { Canvas } from '@react-three/fiber'
-import Polyhedron from './Polyhedron'
-import * as THREE from 'three'
-import { Stats, OrbitControls } from '@react-three/drei'
+import { PointerLockControls } from '@react-three/drei'
 import { Perf } from 'r3f-perf'
+import { useEffect, useState } from 'react'
 
-export default function App() {
-  const polyhedron = [
-    new THREE.BoxGeometry(),
-    new THREE.SphereGeometry(0.785398),
-    new THREE.DodecahedronGeometry(0.785398),
-    new THREE.SphereGeometry(0.785398),
-  ]
+const App = () => {
+    const [showInstructions, setShowInstructions] = useState(true)
 
-  return (
-    <Canvas camera={{ position: [0, 0, 3] }}>
-      <Polyhedron position={[-0.75, -0.75, 0]} polyhedron={polyhedron} />
-      <Polyhedron position={[0.75, -0.75, 0]} polyhedron={polyhedron} />
-      <Polyhedron position={[-0.75, 0.75, 0]} polyhedron={polyhedron} />
-      <Polyhedron position={[0.75, 0.75, 0]} polyhedron={polyhedron} />
-      <OrbitControls
-        enableDamping={false} 
-        enablePan={false} 
-        enableRotate={false}
-        minAzimuthAngle={-Math.PI / 4}
-        maxAzimuthAngle={Math.PI / 4}
-        minPolarAngle={Math.PI / 6}
-        maxPolarAngle={Math.PI - Math.PI / 6}
-      />
-      <Stats />
-      <Perf position="top-right"/>
-    </Canvas>
-  )
+    const pointerLockChange =() => {
+        setShowInstructions(!showInstructions)
+    }
+
+
+    useEffect(() => {
+        document.addEventListener('pointerlockchange', pointerLockChange, false)
+        return () => {
+            document.removeEventListener('pointerlockchange', pointerLockChange, false)
+        }
+    })
+
+    return (
+        <>
+            <Canvas>
+                <mesh>
+                    <boxGeometry
+                        args={[100, 10, 100, 100, 10, 100]}
+                    />
+                    <meshBasicMaterial
+                        wireframe
+                        color={'lime'}
+                    />
+                </mesh>
+                <PointerLockControls selector="#button"/>
+                <Perf position='top-right'/>
+
+            </Canvas>
+            <div
+              id="instructions"
+              className={showInstructions ? 'show' : 'hide'}
+            >
+                Instructions
+                <button id="button">Click To Enter</button>
+            </div>
+        </>
+    )
 }
+
+export default App;
