@@ -1,10 +1,14 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
 
 const Box = (props) => {
     const ref = useRef();
-    useEffect(() => {
-        console.log(ref.current);
-    });
+    
+    useFrame((_, delta) => {
+        ref.current.rotation.x += 1 * delta;
+        ref.current.rotation.y += 1 * delta;
+        ref.current.rotation.z += 1 * delta;
+    })
 
     return (
         <mesh {...props} ref={ref}>
