@@ -5,7 +5,7 @@ body,
   margin: 0;
   background: #000000;
 }
-
+/* 
 #instructions {
   background-color: rgba(0, 0, 0, 0.5);
   top: 50%;
@@ -39,4 +39,4 @@ body,
 .hide {
   transition: opacity 1s linear;
   opacity: 0;
-}
+} */
