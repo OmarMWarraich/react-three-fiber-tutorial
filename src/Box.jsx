@@ -1,6 +1,6 @@
-const Box = () => {
+const Box = (props) => {
     return (
-        <mesh>
+        <mesh {...props}>
             <boxGeometry args={[1, 1, 1]} />
             <meshBasicMaterial color="hotpink" wireframe/>
         </mesh>
